@@ -4,16 +4,16 @@ from flask import json
 from datetime import datetime
 from urllib.request import urlopen
 import sqlite3
-
-app = Flask(_name_)                                                                                                                  
                                                                                                                                        
+app = Flask(_name_)                                                                                                                  
+
 @app.route('/')
 def hello_world():
-    return render_template('hello.html') #Comm
-  
+    return render_template('hello.html')
+
 @app.route("/contact/")
-def MaPremiereAPI():
-    return "<h2>Ma page de contact</h2>"
+def contact():
+    return render_template("contact.html")
 
 @app.route('/tawarano/')
 def meteo():
@@ -23,15 +23,17 @@ def meteo():
     results = []
     for list_element in json_content.get('list', []):
         dt_value = list_element.get('dt')
-        temp_day_value = list_element.get('main', {}).get('temp') - 273.15 # Conversion de Kelvin en °c 
+        temp_day_value = list_element.get('main', {}).get('temp') - 273.15
         results.append({'Jour': dt_value, 'temp': temp_day_value})
     return jsonify(results=results)
-  
+
 @app.route("/rapport/")
 def mongraphique():
     return render_template("graphique.html")
+
 @app.route("/histogramme/")
 def histogramme():
     return render_template("histogramme.html")
+
 if _name_ == "_main_":
-  app.run(debug=True)
+    app.run(debug=True)
